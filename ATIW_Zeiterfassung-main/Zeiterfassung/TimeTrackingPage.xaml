@@ -1,0 +1,252 @@
+﻿<Window x:Class="Zeiterfassung.TimeTrackingPage"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Zeiterfassung"
+        mc:Ignorable="d"
+        Title="TimeTrackingPage" Height="450" Width="800">
+
+    <Window.Resources>
+
+        <Style x:Key="CheckBoxFocusVisual">
+            <Setter Property="Control.Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Border>
+                            <Rectangle 
+        Margin="15,0,0,0"
+        StrokeThickness="1"
+        Stroke="#60000000"
+        StrokeDashArray="1 2"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="ButtonFocusVisual">
+            <Setter Property="Control.Template">
+                <Setter.Value>
+                    <ControlTemplate>
+                        <Border>
+                            <Rectangle 
+        Margin="2"
+        StrokeThickness="1"
+        Stroke="#60000000"
+        StrokeDashArray="1 2"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Fill Brushes -->
+        <LinearGradientBrush x:Key="LightBrush" StartPoint="0,0" EndPoint="0,1">
+            <GradientBrush.GradientStops>
+                <GradientStopCollection>
+                    <GradientStop Color="#dac8e2" Offset="0.0"/>
+                    <GradientStop Color="#e8bcf0" Offset="1.8"/>
+                </GradientStopCollection>
+            </GradientBrush.GradientStops>
+        </LinearGradientBrush>
+
+        <LinearGradientBrush x:Key="DarkBrush" StartPoint="0,0" EndPoint="0,1">
+            <GradientBrush.GradientStops>
+                <GradientStopCollection>
+                    <GradientStop Color="#FFF" Offset="0.0"/>
+                    <GradientStop Color="#AAA" Offset="1.0"/>
+                </GradientStopCollection>
+            </GradientBrush.GradientStops>
+        </LinearGradientBrush>
+
+        <LinearGradientBrush x:Key="PressedBrush" StartPoint="0,0" EndPoint="0,1">
+            <GradientBrush.GradientStops>
+                <GradientStopCollection>
+                    <GradientStop Color="#BBB" Offset="0.0"/>
+                    <GradientStop Color="#EEE" Offset="0.1"/>
+                    <GradientStop Color="#EEE" Offset="0.9"/>
+                    <GradientStop Color="#FFF" Offset="1.0"/>
+                </GradientStopCollection>
+            </GradientBrush.GradientStops>
+        </LinearGradientBrush>
+
+        <SolidColorBrush x:Key="DisabledForegroundBrush" Color="#888" />
+
+        <SolidColorBrush x:Key="DisabledBackgroundBrush" Color="#EEE" />
+
+        <!-- Border Brushes -->
+        <LinearGradientBrush x:Key="DefaultedBorderBrush" StartPoint="0,0" EndPoint="0,1">
+            <GradientBrush.GradientStops>
+                <GradientStopCollection>
+                    <GradientStop Color="#777" Offset="0.0"/>
+                    <GradientStop Color="#000" Offset="1.0"/>
+                </GradientStopCollection>
+            </GradientBrush.GradientStops>
+        </LinearGradientBrush>
+
+        <LinearGradientBrush x:Key="PressedBorderBrush" StartPoint="0,0" EndPoint="0,1">
+            <GradientBrush.GradientStops>
+                <GradientStopCollection>
+                    <GradientStop Color="#444" Offset="0.0"/>
+                    <GradientStop Color="#888" Offset="1.0"/>
+                </GradientStopCollection>
+            </GradientBrush.GradientStops>
+        </LinearGradientBrush>
+
+        <SolidColorBrush x:Key="DisabledBorderBrush" Color="#AAA" />
+
+        <SolidColorBrush x:Key="SolidBorderBrush" Color="#888" />
+
+        <!-- Miscellaneous Brushes -->
+        <SolidColorBrush x:Key="GlyphBrush" Color="#444" />
+
+
+        <!-- Button Styling -->
+        <Style x:Key="Button" TargetType="Button">
+            <Setter Property="SnapsToDevicePixels" Value="true"/>
+            <Setter Property="OverridesDefaultStyle" Value="true"/>
+            <Setter Property="FocusVisualStyle" Value="{StaticResource ButtonFocusVisual}"/>
+            <Setter Property="MinHeight" Value="23"/>
+            <Setter Property="MinWidth" Value="75"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border 
+                    x:Name="Border"  
+                    CornerRadius="2" 
+                    BorderThickness="1"
+                    Background="{StaticResource LightBrush}"
+                    BorderBrush="{StaticResource SolidBorderBrush}">
+                            <Border.Effect>
+                                <DropShadowEffect ShadowDepth="0" Color="#e8bcf0" BlurRadius="20" RenderingBias="Quality" />
+                            </Border.Effect>
+                            <ContentPresenter 
+                        Margin="2"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        RecognizesAccessKey="True" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsKeyboardFocused" Value="true">
+                                <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource DefaultedBorderBrush}" />
+                            </Trigger>
+                            <Trigger Property="IsDefaulted" Value="true">
+                                <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource DefaultedBorderBrush}" />
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter TargetName="Border" Property="Background" Value="{StaticResource DarkBrush}" />
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="true">
+                                <Setter TargetName="Border" Property="Background" Value="{StaticResource PressedBrush}" />
+                                <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource PressedBorderBrush}" />
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter TargetName="Border" Property="Background" Value="{StaticResource DisabledBackgroundBrush}" />
+                                <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource DisabledBorderBrush}" />
+                                <Setter Property="Foreground" Value="{StaticResource DisabledForegroundBrush}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Label Styling -->
+        <Style x:Key="Label" TargetType="Label">
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Width" Value="150px" />
+            <Setter Property="Height" Value="40px" />
+            <Setter Property="FontSize" Value="20" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Label">
+                        <Border BorderBrush="gray"
+                            BorderThickness="1"
+                            CornerRadius="3"
+                            Background="#dac8e2"
+                            Padding="10 0">
+                            <ContentPresenter 
+                            HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                            RecognizesAccessKey="True"/>
+                            <Border.Effect>
+                                <DropShadowEffect ShadowDepth="0" Color="#dac8e2" BlurRadius="30" RenderingBias="Quality" />
+                            </Border.Effect>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="Foreground"
+                            Value="{StaticResource DisabledForegroundBrush}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Textbox Styling -->
+        <Style x:Key="TextBox" TargetType="{x:Type TextBoxBase}">
+            <Setter Property="SnapsToDevicePixels" Value="True"/>
+            <Setter Property="OverridesDefaultStyle" Value="True"/>
+            <Setter Property="KeyboardNavigation.TabNavigation" Value="None"/>
+            <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+            <Setter Property="MinWidth" Value="240"/>
+            <Setter Property="MinHeight" Value="40"/>
+            <Setter Property="AllowDrop" Value="true"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type TextBoxBase}">
+                        <Border 
+            Name="Border"
+            CornerRadius="3" 
+            Padding="2"
+            Background="#dac8e2"
+            BorderBrush="{StaticResource SolidBorderBrush}"
+            BorderThickness="1" >
+                            <Border.Effect>
+                                <DropShadowEffect ShadowDepth="0" Color="#dac8e2" BlurRadius="20" RenderingBias="Performance" Opacity="0.9" />
+                            </Border.Effect>
+                            <ScrollViewer Margin="0" x:Name="PART_ContentHost"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="Border" Property="Background" Value="{StaticResource DisabledBackgroundBrush}"/>
+                                <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource DisabledBackgroundBrush}"/>
+                                <Setter Property="Foreground" Value="{StaticResource DisabledForegroundBrush}"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+
+    <Grid>
+        <Label x:Name="Header" Content="Übersicht" HorizontalAlignment="Left" FontSize="30" FontWeight="DemiBold" VerticalAlignment="Top" Height="50" Width="150" Margin="325, 20, 325, 0" />
+
+        <Label Style="{StaticResource Label}" x:Name="HelloUserLabel" Content="" FontSize="27" HorizontalAlignment="Left" Height="50" Margin="80,80,0,0" VerticalAlignment="Top" Width="260"/>
+        <Button Style="{StaticResource Button}" x:Name="CheckInOutButton" Content="Einstempeln" HorizontalAlignment="Left" Height="50" Margin="395,80,0,0" VerticalAlignment="Top" Width="60" Click="CheckInOutButton_Click"/>
+        <TextBox Style="{StaticResource TextBox}" x:Name="ChipCheckInOutBox" FontSize="27" HorizontalAlignment="Left" Height="50" Margin="470,80,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" RenderTransformOrigin="-2.962,2.394" KeyUp="ChipCheckInOutBox_KeyUp"/>
+
+        <Label x:Name="DurationLabel" FontSize="27" Content="Dauer:" HorizontalAlignment="Left" Height="56" Margin="80,150,0,0" VerticalAlignment="Top" Width="91"/>
+        <Label x:Name="DurationValueLabel" Content="----------" FontSize="27" HorizontalAlignment="Left" Height="56" Margin="190,150,0,0" VerticalAlignment="Top" Width="201"/>
+
+        <Label x:Name="StartTimeLabel" Content="Seit:" FontSize="27" HorizontalAlignment="Left" Height="56" Margin="405,150,0,0" VerticalAlignment="Top" Width="63"/>
+        <Label x:Name="StartTimeValueLabel" Content="----------" FontSize="27" HorizontalAlignment="Left" Height="56" Margin="483,150,0,0" VerticalAlignment="Top" Width="231"/>
+
+        <ListView x:Name="EntryHistoryListView" HorizontalAlignment="Center" Height="112" Margin="0,217,0,0" VerticalAlignment="Top" Width="630" d:ItemsSource="{d:SampleData ItemCount=5}" SelectionChanged="EntryHistoryListView_SelectionChanged">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Datum" DisplayMemberBinding="{Binding Path=StartTimeStamp, StringFormat='dd-MM-yyyy'}" Width="150"/>
+                    <GridViewColumn Header="Start" DisplayMemberBinding="{Binding Path=StartTimeStamp, StringFormat='HH:mm:ss'}" Width="150"/>
+                    <GridViewColumn Header="Ende" DisplayMemberBinding="{Binding Path=EndTimeStamp, StringFormat='HH:mm:ss'}" Width="150"/>
+                    <GridViewColumn Header="Dauer" DisplayMemberBinding="{Binding Path=TimeSpan, StringFormat='HH:mm:ss'}" Width="150"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+
+        <Button Style="{StaticResource Button}" x:Name="EntryFormButton" Content="Eintrag hinzufügen" HorizontalAlignment="Left" Height="59" Margin="470,347,0,0" VerticalAlignment="Top" Width="245" IsEnabled="false" Click="EntryFormButton_Click" RenderTransformOrigin="0.511,-0.109"/>
+    </Grid>
+</Window>
